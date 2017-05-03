@@ -11,15 +11,15 @@ BuildRoot:   %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Vendor:      http://www.wazuh.com
 Packager:    Jose Luis Ruiz <jose@wazuh.com>
 Requires(pre):    /usr/sbin/groupadd /usr/sbin/useradd
-Requires(post):   /sbin/chkconfig 
+Requires(post):   /sbin/chkconfig
 Requires(preun):  /sbin/chkconfig /sbin/service
 Requires(postun): /sbin/service
- 
+
 Requires: nodejs >= 4.6
-Requires: wazuh-manager >= 1.2 
+Requires: wazuh-manager >= 1.2
 BuildRequires: gcc-c++ make nodejs >= 4.6
 ExclusiveOS: linux
- 
+
 %description
 Wazuh API is an open source RESTful API to interact with Wazuh
 from your own application or with a simple web browser or tools like cURL
@@ -32,15 +32,13 @@ LIB_PATH="framework/lib"
 SONAME="libsqlite3.so.0"
 SOURCE="framework/database/sqlite3.c"
 gcc -pipe -O2 -shared -fPIC -o $LIB_PATH/$SONAME $SOURCE
-
 npm install --production
 
 %install
 # Clean BUILDROOT
 rm -fr %{buildroot}
- 
 mkdir -p ${RPM_BUILD_ROOT}%{_initrddir}
-#Folders 
+#Folders
 mkdir -p ${RPM_BUILD_ROOT}%{_localstatedir}/ossec/api
 mkdir -p ${RPM_BUILD_ROOT}%{_localstatedir}/ossec/api/{configuration,controllers,examples,framework,helpers,models,scripts}
 mkdir -p ${RPM_BUILD_ROOT}%{_localstatedir}/ossec/api/configuration/{auth,ssl}
@@ -80,7 +78,6 @@ if [ $1 = 1 ]; then
 
     cp -rLfp ${API_PATH} ${API_PATH_BACKUP}
     chown root:root ${API_PATH_BACKUP}
-  
     ${API_OLD_VERSION}=`cat ${API_PATH_BACKUP}/package.json | grep "version\":" | grep -P "\d+(?:\.\d+){0,2}" -o`
     if [ "X${API_OLD_VERSION}" == "X1.3.0" ]; then
         rm -rf ${API_PATH}/configuration
@@ -94,11 +91,11 @@ if [ $1 = 1 ]; then
     fi
   fi
 fi
- 
+
 %post
- 
+
 if [ $1 = 1 ]; then
-  /var/ossec/api/scripts/install_daemon.sh 
+  /var/ossec/api/scripts/install_daemon.sh
   touch /var/ossec/logs/api.log
   chmod 660 /var/ossec/logs/api.log
   chown root:ossec /var/ossec/logs/api.log
@@ -106,7 +103,7 @@ if [ $1 = 1 ]; then
 fi
 ln -sf /var/ossec/api/node_modules/htpasswd/bin/htpasswd /var/ossec/api/configuration/auth/htpasswd
 
-#veriy python version
+# Verify python version
 if python -V >/dev/null 2>&1; then
    python_version=$(python -c 'import sys; print(".".join(map(str, sys.version_info[:3])))' | cut -c1-3)
    if [ ! $python_version == '2.7' ]; then
@@ -119,7 +116,7 @@ else
 fi
 
 %preun
- 
+
 if [ $1 = 0 ]; then
   if [ -n "$(ps -e | egrep ^\ *1\ .*systemd$)" ]; then
     systemctl stop wazuh-api.service
@@ -130,13 +127,13 @@ if [ $1 = 0 ]; then
   if [ -n "$(ps -e | egrep ^\ *1\ .*init$)" ]; then
     service wazuh-api stop
     chkconfig wazuh-api off
-  fi    
+  fi
 fi
- 
- 
+
+
 %clean
 rm -fr %{buildroot}
-  
+
 %files
 %defattr(-,root,root)
 %doc CHANGELOG
@@ -154,7 +151,7 @@ rm -fr %{buildroot}
 %attr(750,root,ossec) %dir %{_localstatedir}/ossec/api/framework/wazuh
 %attr(750,root,ossec) %dir %{_localstatedir}/ossec/api/node_modules
 %attr(750,root,ossec) %{_localstatedir}/ossec/api/framework/lib
-%attr(640,root,ossec) %{_localstatedir}/ossec/api/package.json 
+%attr(640,root,ossec) %{_localstatedir}/ossec/api/package.json
 %attr(750,root,ossec) %{_localstatedir}/ossec/api/app.js
 %attr(750,root,root) %config(noreplace) %{_localstatedir}/ossec/api/configuration/config.js
 %attr(750,root,root) %config(noreplace) %{_localstatedir}/ossec/api/configuration/auth/user

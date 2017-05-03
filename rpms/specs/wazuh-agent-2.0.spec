@@ -205,11 +205,13 @@ if [ $1 = 1 ]; then
   if [ -f %{_localstatedir}/ossec/etc/ossec.conf.rpmorig ]; then
       %{_localstatedir}/ossec/tmp/src/init/replace_manager_ip.sh %{_localstatedir}/ossec/etc/ossec.conf.rpmorig %{_localstatedir}/ossec/etc/ossec.conf
   fi
-
+  # Delete files
   rm -rf %{_localstatedir}/ossec/tmp/etc
   rm -rf %{_localstatedir}/ossec/tmp/src
   rm -f %{_localstatedir}/ossec/tmp/add_localfiles.sh
+  # Create Simbolic Link
   ln -sf %{_sysconfdir}/ossec-init.conf %{_localstatedir}/ossec/etc/ossec-init.conf
+  # Add wazuh service
   /sbin/chkconfig --add wazuh-agent
   /sbin/chkconfig wazuh-agent on
 
@@ -225,7 +227,6 @@ fi
 if [ $1 = 0 ]; then
   /sbin/chkconfig wazuh-agent off
   /sbin/chkconfig --del wazuh-agent
-
   /sbin/service wazuh-agent stop || :
 fi
 

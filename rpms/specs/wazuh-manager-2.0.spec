@@ -29,11 +29,9 @@ Requires: openssl101e
 %if 0%{!?el6}
 BuildRequires: inotify-tools-devel
 %endif
+
 BuildRequires: zlib-devel
-
-
 Requires:  expect logrotate
-
 ExclusiveOS: linux
 
 %description
@@ -72,7 +70,7 @@ popd
 %install
 # Clean BUILDROOT
 rm -fr %{buildroot}
-
+# Make Directories
 mkdir -p ${RPM_BUILD_ROOT}%{_initrddir}
 mkdir -p ${RPM_BUILD_ROOT}%{_localstatedir}/ossec/active-response/bin
 mkdir -p ${RPM_BUILD_ROOT}%{_localstatedir}/ossec/agentless
@@ -91,12 +89,15 @@ mkdir -p ${RPM_BUILD_ROOT}%{_localstatedir}/ossec/wodles
 mkdir -p ${RPM_BUILD_ROOT}%{_localstatedir}/ossec/wodles/oscap
 mkdir -p ${RPM_BUILD_ROOT}%{_localstatedir}/ossec/wodles/oscap/content
 mkdir -p ${RPM_BUILD_ROOT}%{_localstatedir}/ossec/.ssh
-
+mkdir -p $RPM_BUILD_ROOT/etc/logrotate.d
 # Templates for initscript
 mkdir -p ${RPM_BUILD_ROOT}%{_localstatedir}/ossec/tmp/src/init
 mkdir -p ${RPM_BUILD_ROOT}%{_localstatedir}/ossec/tmp/etc/templates/config/generic
 cp -rp  etc/templates/config/generic/* ${RPM_BUILD_ROOT}%{_localstatedir}/ossec/tmp/etc/templates/config/generic
-
+cp %{SOURCE2} CHANGELOG
+cp -pr etc/ossec-server.conf ${RPM_BUILD_ROOT}%{_localstatedir}/ossec/etc/ossec.conf
+cp -pr src/init/ossec-server.sh ${RPM_BUILD_ROOT}%{_localstatedir}/ossec/bin/ossec-control
+# Install files
 install -m 0640 ossec-init.conf ${RPM_BUILD_ROOT}%{_sysconfdir}
 install -m 0640 src/init/inst-functions.sh ${RPM_BUILD_ROOT}%{_localstatedir}/ossec/tmp/src/init
 install -m 0640 src/init/template-select.sh ${RPM_BUILD_ROOT}%{_localstatedir}/ossec/tmp/src/init
@@ -105,12 +106,7 @@ install -m 0640 src/LOCATION ${RPM_BUILD_ROOT}%{_localstatedir}/ossec/tmp/src
 install -m 0640 src/VERSION ${RPM_BUILD_ROOT}%{_localstatedir}/ossec/tmp/src
 #install -m 0640 gen_ossec.sh ${RPM_BUILD_ROOT}%{_localstatedir}/ossec/tmp
 install -m 0640 add_localfiles.sh ${RPM_BUILD_ROOT}%{_localstatedir}/ossec/tmp
-
-
-cp %{SOURCE2} CHANGELOG
-
 install -m 0640 src/init/inst-functions.sh ${RPM_BUILD_ROOT}%{_localstatedir}/ossec/tmp/src/init
-
 install -m 0755 %{SOURCE1} ${RPM_BUILD_ROOT}%{_initrddir}/wazuh-manager
 install -m 0640 etc/decoders/*.xml ${RPM_BUILD_ROOT}%{_localstatedir}/ossec/ruleset/decoders
 install -m 0440 etc/local_decoder.xml ${RPM_BUILD_ROOT}%{_localstatedir}/ossec/etc/decoders
@@ -158,6 +154,7 @@ install -m 0750 wodles/oscap/template_xccdf.xsl ${RPM_BUILD_ROOT}%{_localstatedi
 install -m 0640 etc/local_internal_options.conf ${RPM_BUILD_ROOT}%{_localstatedir}/ossec/etc
 install -m 0640 etc/lists/audit-keys ${RPM_BUILD_ROOT}%{_localstatedir}/ossec/etc/lists
 install -m 0640 etc/lists/audit-keys.cdb ${RPM_BUILD_ROOT}%{_localstatedir}/ossec/etc/lists
+install -m 0644 %{SOURCE3} ${RPM_BUILD_ROOT}/etc/logrotate.d/wazuh-manager
 
 %if  "%_vendor" == "redhat" && 0%{?el7}
   install -m 0640 wodles/oscap/content/cve-redhat-7-ds.xml ${RPM_BUILD_ROOT}%{_localstatedir}/ossec/wodles/oscap/content
@@ -179,13 +176,6 @@ install -m 0640 etc/lists/audit-keys.cdb ${RPM_BUILD_ROOT}%{_localstatedir}/osse
 %if 0%{?fedora} >= 23 || 0%{?fedora} >= 24 || 0%{?fedora} >= 25
   install -m 0640 wodles/oscap/content/ssg-fedora-ds.xml ${RPM_BUILD_ROOT}%{_localstatedir}/ossec/wodles/oscap/content
 %endif
-
-
-cp -pr etc/ossec-server.conf ${RPM_BUILD_ROOT}%{_localstatedir}/ossec/etc/ossec.conf
-cp -pr src/init/ossec-server.sh ${RPM_BUILD_ROOT}%{_localstatedir}/ossec/bin/ossec-control
-
-mkdir -p $RPM_BUILD_ROOT/etc/logrotate.d
-install -m 0644 %{SOURCE3} ${RPM_BUILD_ROOT}/etc/logrotate.d/wazuh-manager
 
 exit 0
 %pre
@@ -291,7 +281,7 @@ if [ $1 = 1 ]; then
         fi
 
   	touch %{_localstatedir}/ossec/logs/ossec.log
-	touch %{_localstatedir}/ossec/logs/integrations.log
+	  touch %{_localstatedir}/ossec/logs/integrations.log
   	touch %{_localstatedir}/ossec/logs/active-responses.log
   	touch %{_localstatedir}/ossec/etc/client.keys
   	chown ossec:ossec %{_localstatedir}/ossec/logs/ossec.log
@@ -308,6 +298,7 @@ if [ $1 = 1 ]; then
   echo "=========================================================================================================="
   echo "= Based in your current configuration, the local_files have been added to your /var/ossec/etc/ossec.conf ="
   echo "=========================================================================================================="
+   #Add Wazuh Service
    /sbin/chkconfig --add wazuh-manager
    /sbin/chkconfig wazuh-manager on
 
@@ -329,9 +320,7 @@ fi
 if [ $1 = 0 ]; then
   /sbin/chkconfig wazuh-manager off
   /sbin/chkconfig --del wazuh-manager
-
   /sbin/service wazuh-manager stop || :
-
   rm -f %{_localstatedir}/ossec/etc/localtime
 fi
 
