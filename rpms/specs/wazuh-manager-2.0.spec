@@ -4,7 +4,7 @@ Version:     2.0
 Release:     1%{?dist}
 License:     GPL
 Group:       System Environment/Daemons
-Source0:     https://github.com/wazuh/ossec-wazuh/archive/%{name}-%{version}.tar.gz
+Source0:     https://github.com/wazuh/wazuh/archive/%{name}-%{version}.tar.gz
 Source1:     %{name}.init
 Source2:     CHANGELOG
 Source3:     wazuh-manager.logrotate

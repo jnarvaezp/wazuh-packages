@@ -4,7 +4,7 @@ Version:     2.0
 Release:     1%{?dist}
 License:     GPL
 Group:       System Environment/Daemons
-Source0:     https://github.com/wazuh/ossec-wazuh/archive/%{name}-%{version}.tar.gz
+Source0:     https://github.com/wazuh/wazuh/archive/%{name}-%{version}.tar.gz
 Source1:     %{name}.init
 Source2:     CHANGELOG
 Source3:     wazuh-manager.logrotate
@@ -13,7 +13,7 @@ BuildRoot:   %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Vendor:      http://www.wazuh.com
 Packager:    Jose Luis Ruiz <jose@wazuh.com>
 Requires(pre):    /usr/sbin/groupadd /usr/sbin/useradd
-Requires(post):   /sbin/chkconfig 
+Requires(post):   /sbin/chkconfig
 Requires(preun):  /sbin/chkconfig /sbin/service
 Requires(postun): /sbin/service
 Conflicts:   ossec-hids ossec-hids-agent wazuh-manager
@@ -33,7 +33,7 @@ BuildRequires: inotify-tools-devel
 BuildRequires: zlib-devel
 Requires:  logrotate
 ExclusiveOS: linux
- 
+
 %description
 Wazuh helps you to gain security visibility into your infrastructure by monitoring
 hosts at an operating system and application level. It provides the following capabilities:
@@ -50,7 +50,7 @@ log analysis, file integrity monitoring, intrusions detection and policy and com
 ./gen_ossec.sh conf agent %_vendor %rhel  > etc/ossec-agent.conf
 %endif
 
-./gen_ossec.sh init agent  > ossec-init.conf 
+./gen_ossec.sh init agent  > ossec-init.conf
 CFLAGS="$RPM_OPT_FLAGS -fpic -fPIE -Wformat -Wformat-security -fstack-protector-all -Wstack-protector --param ssp-buffer-size=4 -D_FORTIFY_SOURCE=2"
 LDFLAGS="-fPIE -pie -Wl,-z,relro"
 SH_LDFLAGS="-fPIE -pie -Wl,-z,relro"
@@ -62,10 +62,10 @@ CFLAGS+=" -I/usr/include/openssl101e -L/usr/lib64/openssl101e -L/usr/lib/openssl
 
 pushd src
 # Rebuild for server
-make clean 
+make clean
 make TARGET=agent
 popd
- 
+
 %install
 # Clean BUILDROOT
 rm -fr %{buildroot}
@@ -191,7 +191,7 @@ if [ $1 = 1 ]; then
   chown ossec:ossec %{_localstatedir}/ossec/logs/ossec.log
   chown root:ossec %{_localstatedir}/ossec/etc/client.keys
   chown ossec:ossec %{_localstatedir}/ossec/logs/active-responses.log
-  # Change Permissions 
+  # Change Permissions
   chmod 660 %{_localstatedir}/ossec/logs/ossec.log
   chmod 0640 %{_localstatedir}/ossec/etc/client.keys
   chmod 0660 %{_localstatedir}/ossec/logs/active-responses.log
@@ -201,7 +201,7 @@ if [ $1 = 1 ]; then
   echo "======================================================================================================================================"
   echo "= By default, OSSEC analyses some logs found in your system. Please, review the configuration if you want to monitor any other file. ="
   echo "======================================================================================================================================"
-  
+
   if [ -f %{_localstatedir}/ossec/etc/ossec.conf.rpmorig ]; then
       %{_localstatedir}/ossec/tmp/src/init/replace_manager_ip.sh %{_localstatedir}/ossec/etc/ossec.conf.rpmorig %{_localstatedir}/ossec/etc/ossec.conf
   fi
@@ -221,7 +221,7 @@ if [ $1 = 2 ]; then
 fi
 
 %preun
- 
+
 if [ $1 = 0 ]; then
   /sbin/chkconfig wazuh-agent off
   /sbin/chkconfig --del wazuh-agent
@@ -236,11 +236,10 @@ fi
  chmod 0640 %{_localstatedir}/ossec/etc/localtime
 %clean
 rm -fr %{buildroot}
-  
+
 %files
 %defattr(-,root,root)
 %doc BUGS CONFIG CONTRIBUTORS INSTALL LICENSE README.md CHANGELOG
-
 %attr(640,root,ossec) %verify(not md5 size mtime) %{_sysconfdir}/ossec-init.conf
 %attr(550,root,ossec) %dir %{_localstatedir}/ossec
 %attr(750,root,root) %dir %{_localstatedir}/ossec/lua
