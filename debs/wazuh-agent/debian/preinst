@@ -37,6 +37,7 @@ case "$1" in
         if [ -f ${DIR}/etc/client.keys ]; then
             cp ${DIR}/etc/client.keys ${OSSEC_HIDS_TMP_DIR}/client.keys
         fi
+        # Backup internal options
         if [ -f ${DIR}/etc/local_internal_options.conf ]; then
             cp -p ${DIR}/etc/local_internal_options.conf ${OSSEC_HIDS_TMP_DIR}/local_internal_options.conf
         fi

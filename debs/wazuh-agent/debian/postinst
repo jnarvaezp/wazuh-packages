@@ -7,7 +7,7 @@ set -e
 case "$1" in
     configure)
 
-        OS=$(lsb_release -si)
+  OS=$(lsb_release -si)
 	VER=$(lsb_release -sr)
 	DIR="/var/ossec/"
 	USER="ossec"
@@ -42,28 +42,25 @@ case "$1" in
           ${DIR}/tmp/src/init/replace_manager_ip.sh ${DIR}/etc/ossec.conf.deborig ${DIR}/etc/ossec.conf
         fi
         fi
-        rm -rf ${DIR}/tmp/src
-        rm -rf ${DIR}/tmp/etc
+  rm -rf ${DIR}/tmp/src
+  rm -rf ${DIR}/tmp/etc
 	# Default for all directories
 	chmod -R 750 ${DIR}
-	chown -R root:${GROUP} ${DIR}
-
+  chmod -R 750 ${DIR}/queue/*
+  chmod -R 770 ${DIR}/queue/alerts
+  chmod -R 750 ${DIR}/logs
+  chmod 660 ${DIR}/logs/ossec.log
+  chmod -R 750 ${DIR}/queue/diff
+  chmod 740 ${DIR}/queue/diff/* > /dev/null 2>&1 || true
 	# To the ossec queue (default for agentd to read)
 	chown -R ${USER}:${GROUP} ${DIR}/queue/*
-	chmod -R 750 ${DIR}/queue/*
-	chmod -R 770 ${DIR}/queue/alerts
-	
+  chown -R root:${GROUP} ${DIR}
+  chown -R ${USER}:${GROUP} ${DIR}/logs
+  chown ${USER}:${GROUP} ${DIR}/logs/ossec.log
+  chown -R ${USER}:${GROUP} ${DIR}/queue/diff
 	# For the logging user
-	chown -R ${USER}:${GROUP} ${DIR}/logs
-	chmod -R 750 ${DIR}/logs
-	touch ${DIR}/logs/ossec.log
-	chown ${USER}:${GROUP} ${DIR}/logs/ossec.log
-	chmod 660 ${DIR}/logs/ossec.log
+  touch ${DIR}/logs/ossec.log
 
-  	chown -R ${USER}:${GROUP} ${DIR}/queue/diff
-  	chmod -R 750 ${DIR}/queue/diff
-  	chmod 740 ${DIR}/queue/diff/* > /dev/null 2>&1 || true
-  	
         if [ ${OS} = "Debian" ]; then
         chmod 640 ${DIR}/wodles/oscap/content/cve-debian-oval.xml
 	chmod 640 ${DIR}/wodles/oscap/content/ssg-debian-8-ds.xml
@@ -106,15 +103,20 @@ case "$1" in
 	chown root:${GROUP} ${DIR}/etc/client.keys >/dev/null 2>&1 || true
 	chown root:${GROUP} ${DIR}/agentless/*
 	chown -R root:root ${DIR}/lua
-        chown -R root:root ${DIR}/bin
+  chown -R root:root ${DIR}/bin
 	chown root:${GROUP} ${DIR}/.ssh
 	chown root:${GROUP} ${DIR}/etc/shared
 	chown root:${GROUP} ${DIR}/etc/shared/*
+  # For binaries and active response
+  chown root:${GROUP} ${DIR}/active-response/bin/*
+  # For the /var/run
+  chown root:${GROUP} ${DIR}/var/run
+  # For ossec.conf
+  chown root:${GROUP} ${DIR}/etc/ossec.conf
 	chmod 770 ${DIR}/var/*
 	chmod 750 ${DIR}/lua || true
 	chmod 750 ${DIR}/lua/native || true
 	chmod 750 ${DIR}/lua/compiled || true
-
 	chmod 770 ${DIR}/etc
 	chmod 640 ${DIR}/etc/internal_options.conf
 	chmod 640 ${DIR}/etc/local_internal_options.conf >/dev/null 2>&1 || true
@@ -123,21 +125,14 @@ case "$1" in
 	chmod 700 ${DIR}/.ssh
 	chmod 770 ${DIR}/etc/shared
 	chmod 660 ${DIR}/etc/shared/*
-        chmod 1750  ${DIR}/tmp
-	# For the /var/run
-	chown root:${GROUP} ${DIR}/var/run
-
-	# For util.sh
-	chmod +x ${DIR}/bin/util.sh
-
-	# For binaries and active response
-  	chmod 750 ${DIR}/active-response/bin/*
-  	chown root:${GROUP} ${DIR}/active-response/bin/*
-  	chmod 750 ${DIR}/bin/*
-
-	# For ossec.conf
-	chown root:${GROUP} ${DIR}/etc/ossec.conf
-	chmod 640 ${DIR}/etc/ossec.conf
+  chmod 1750  ${DIR}/tmp
+  # For util.sh
+  chmod +x ${DIR}/bin/util.sh
+  # For binaries and active response
+  chmod 750 ${DIR}/active-response/bin/*
+  chmod 750 ${DIR}/bin/*
+  # For ossec.conf
+  chmod 640 ${DIR}/etc/ossec.conf
 
         # init.d/ossec file
         if [ -x ${DIR}/etc/init.d/wazuh-agent ] && [ -d /etc/init.d/ ]; then

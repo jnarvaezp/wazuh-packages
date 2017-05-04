@@ -34,7 +34,7 @@ case "$1" in
             update-rc.d wazuh-api defaults > /dev/null 2>&1
 	fi
 	# Folder Permissions
-        
+
 	chmod 750 ${DIR}
 	chown root:${GROUP} ${DIR}
         chmod 750 ${DIR}/configuration
@@ -63,8 +63,6 @@ case "$1" in
         chown root:${GROUP} ${DIR}/node_modules
         chmod 750 ${DIR}/framework/lib
         chown root:${GROUP} ${DIR}/framework/lib
-
-
 	#Files Permissions
         chmod 640 ${DIR}/package.json
         chown root:${GROUP} ${DIR}/package.json
