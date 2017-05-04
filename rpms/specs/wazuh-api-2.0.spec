@@ -138,23 +138,18 @@ rm -fr %{buildroot}
 %defattr(-,root,root)
 %doc CHANGELOG
 %attr(750,root,ossec) %dir %{_localstatedir}/ossec/api
-%attr(750,root,root) %config(noreplace) %dir %{_localstatedir}/ossec/api/configuration
 %attr(750,root,ossec) %dir %{_localstatedir}/ossec/api/controllers
 %attr(750,root,ossec) %dir %{_localstatedir}/ossec/api/examples
 %attr(750,root,ossec) %dir %{_localstatedir}/ossec/api/framework
 %attr(750,root,ossec) %dir %{_localstatedir}/ossec/api/helpers
 %attr(750,root,ossec) %dir %{_localstatedir}/ossec/api/models
-%attr(750,root,root) %dir %{_localstatedir}/ossec/api/scripts
-%attr(750,root,root) %config(noreplace) %dir %{_localstatedir}/ossec/api/configuration/auth
-%attr(750,root,root) %config(noreplace) %dir %{_localstatedir}/ossec/api/configuration/ssl
 %attr(750,root,ossec) %dir %{_localstatedir}/ossec/api/framework/examples
 %attr(750,root,ossec) %dir %{_localstatedir}/ossec/api/framework/wazuh
 %attr(750,root,ossec) %dir %{_localstatedir}/ossec/api/node_modules
+%attr(750,root,root) %dir %{_localstatedir}/ossec/api/scripts
 %attr(750,root,ossec) %{_localstatedir}/ossec/api/framework/lib
 %attr(640,root,ossec) %{_localstatedir}/ossec/api/package.json
 %attr(750,root,ossec) %{_localstatedir}/ossec/api/app.js
-%attr(750,root,root) %config(noreplace) %{_localstatedir}/ossec/api/configuration/config.js
-%attr(750,root,root) %config(noreplace) %{_localstatedir}/ossec/api/configuration/auth/user
 %attr(750,root,ossec) %{_localstatedir}/ossec/api/controllers/*
 %attr(750,root,ossec) %{_localstatedir}/ossec/api/examples/*
 %attr(750,root,ossec) %{_localstatedir}/ossec/api/framework/examples/*
@@ -166,6 +161,11 @@ rm -fr %{buildroot}
 %attr(640,root,root) %{_localstatedir}/ossec/api/scripts/wazuh-api
 %attr(640,root,root) %{_localstatedir}/ossec/api/scripts/wazuh-api.service
 %attr(750,ossec,ossec) %{_localstatedir}/ossec/api/node_modules/*
+%attr(750,root,root) %config(noreplace) %dir %{_localstatedir}/ossec/api/configuration
+%attr(750,root,root) %config(noreplace) %dir %{_localstatedir}/ossec/api/configuration/auth
+%attr(750,root,root) %config(noreplace) %dir %{_localstatedir}/ossec/api/configuration/ssl
+%attr(750,root,root) %config(noreplace) %{_localstatedir}/ossec/api/configuration/config.js
+%attr(750,root,root) %config(noreplace) %{_localstatedir}/ossec/api/configuration/auth/user
 %changelog
 * Fri Apr 21 2017 Jose Luis Ruiz <jose@wazuh.com> - 2.0
 - First package v2.0

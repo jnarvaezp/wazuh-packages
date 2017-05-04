@@ -335,8 +335,6 @@ rm -fr %{buildroot}
 %files
 %defattr(-,root,root)
 %doc BUGS CONFIG CONTRIBUTORS INSTALL LICENSE README.md CHANGELOG
-
-
 %attr(640,root,ossec) %verify(not md5 size mtime) %{_sysconfdir}/ossec-init.conf
 %attr(550,root,ossec) %dir %{_localstatedir}/ossec
 %attr(750,root,ossec) %dir %{_localstatedir}/ossec/backup
@@ -345,7 +343,6 @@ rm -fr %{buildroot}
 %attr(750,root,ossec) %{_localstatedir}/ossec/integrations/*
 %attr(750,root,ossec) %dir %{_localstatedir}/ossec/active-response
 %attr(750,root,root) %dir %{_localstatedir}/ossec/bin
-%attr(750,root,root) %{_localstatedir}/ossec/bin/*
 %attr(770,ossec,ossec) %dir %{_localstatedir}/ossec/etc
 %attr(770,root,ossec) %dir %{_localstatedir}/ossec/etc/shared
 %attr(750,root,ossec) %dir %{_localstatedir}/ossec/etc/decoders
@@ -374,38 +371,36 @@ rm -fr %{buildroot}
 %attr(750,root,ossec) %dir %{_localstatedir}/ossec/ruleset
 %attr(750,root,ossec) %dir %{_localstatedir}/ossec/ruleset/decoders
 %attr(750,root,ossec) %dir %{_localstatedir}/ossec/ruleset/rules
-%attr(750,root,ossec) %{_localstatedir}/ossec/active-response/bin
-%attr(750,root,ossec) %{_localstatedir}/ossec/agentless
 %attr(700,root,ossec) %dir %{_localstatedir}/ossec/.ssh
-%attr(750,root,ossec) %config(missingok,noreplace) %dir %{_localstatedir}/ossec/etc/lists
-%{_initrddir}/*
-
-%attr(640,root,ossec) %{_localstatedir}/ossec/etc/ossec.conf
-%attr(640,root,ossec) %config(noreplace) %{_localstatedir}/ossec/etc/decoders/local_decoder.xml
-%attr(640,root,ossec) %{_localstatedir}/ossec/etc/internal_options*
-%attr(640,root,ossec) %config(noreplace) %{_localstatedir}/ossec/etc/local_internal_options.conf
-%attr(640,root,ossec) %config(noreplace) %{_localstatedir}/ossec/etc/rules/local_rules.xml
-%attr(660,root,ossec) %{_localstatedir}/ossec/etc/shared/*.txt
-%attr(640,root,ossec) %config(missingok,noreplace) %{_localstatedir}/ossec/etc/lists/*
-%attr(640,root,ossec) %{_localstatedir}/ossec/ruleset/VERSION
-%attr(640,root,ossec) %config %{_localstatedir}/ossec/ruleset/rules/*
-%attr(640,root,ossec) %config  %{_localstatedir}/ossec/ruleset/decoders/*
 %attr(750,ossec,ossec) %dir %{_localstatedir}/ossec/stats
 %attr(1750,root,ossec) %dir %{_localstatedir}/ossec/tmp
-
 %attr(750,root,ossec) %dir %{_localstatedir}/ossec/wodles
 %attr(770,root,ossec) %dir %{_localstatedir}/ossec/var/wodles
 %attr(750,root,ossec) %dir %{_localstatedir}/ossec/wodles/oscap
 %attr(750,root,ossec) %dir %{_localstatedir}/ossec/wodles/oscap/content
+%{_initrddir}/*
+%attr(640,root,ossec) %{_localstatedir}/ossec/etc/ossec.conf
+%attr(640,root,ossec) %{_localstatedir}/ossec/etc/internal_options*
+%attr(660,root,ossec) %{_localstatedir}/ossec/etc/shared/*.txt
+%attr(640,root,ossec) %{_localstatedir}/ossec/ruleset/VERSION
 %attr(750,root,ossec) %{_localstatedir}/ossec/wodles/oscap/oscap.*
 %attr(750,root,ossec) %{_localstatedir}/ossec/wodles/oscap/template*
-%if 0%{?rhel} >= 6 || 0%{?rhel} >= 7 ||  0%{?fedora} >= 23 || 0%{?fedora} >= 24 || 0%{?fedora} >= 25
-%attr(640,root,ossec) %{_localstatedir}/ossec/wodles/oscap/content/*
-%endif
-
+%attr(750,root,ossec) %{_localstatedir}/ossec/active-response/bin
+%attr(750,root,ossec) %{_localstatedir}/ossec/agentless
+%attr(750,root,root) %{_localstatedir}/ossec/bin/*
+%attr(640,root,ossec) %config(noreplace) %{_localstatedir}/ossec/etc/local_internal_options.conf
+%attr(640,root,ossec) %config(noreplace) %{_localstatedir}/ossec/etc/rules/local_rules.xml
+%attr(640,root,ossec) %config(noreplace) %{_localstatedir}/ossec/etc/decoders/local_decoder.xml
+%attr(750,root,ossec) %config(missingok,noreplace) %dir %{_localstatedir}/ossec/etc/lists
+%attr(640,root,ossec) %config(missingok,noreplace) %{_localstatedir}/ossec/etc/lists/*
+%attr(640,root,ossec) %config %{_localstatedir}/ossec/ruleset/rules/*
+%attr(640,root,ossec) %config  %{_localstatedir}/ossec/ruleset/decoders/*
 %attr(750,root,root) %config(missingok) %{_localstatedir}/ossec/tmp/add_localfiles.sh
 %attr(750,root,root) %config(missingok) %{_localstatedir}/ossec/tmp/src/*
 %attr(750,root,root) %config(missingok) %{_localstatedir}/ossec/tmp/etc/templates/config/generic/*
+%if 0%{?rhel} >= 6 || 0%{?rhel} >= 7 ||  0%{?fedora} >= 23 || 0%{?fedora} >= 24 || 0%{?fedora} >= 25
+%attr(640,root,ossec) %{_localstatedir}/ossec/wodles/oscap/content/*
+%endif
 %config(noreplace) /etc/logrotate.d/wazuh-manager
 
 %changelog

@@ -243,9 +243,6 @@ rm -fr %{buildroot}
 %doc BUGS CONFIG CONTRIBUTORS INSTALL LICENSE README.md CHANGELOG
 %attr(640,root,ossec) %verify(not md5 size mtime) %{_sysconfdir}/ossec-init.conf
 %attr(550,root,ossec) %dir %{_localstatedir}/ossec
-%attr(750,root,root) %dir %{_localstatedir}/ossec/lua
-%attr(750,root,root) %dir %{_localstatedir}/ossec/lua/compiled
-%attr(750,root,root) %dir %{_localstatedir}/ossec/lua/native
 %attr(750,root,ossec) %dir %{_localstatedir}/ossec/wodles
 %attr(750,root,ossec) %dir %{_localstatedir}/ossec/wodles/oscap
 %attr(750,root,ossec) %dir %{_localstatedir}/ossec/wodles/oscap/content
@@ -253,37 +250,40 @@ rm -fr %{buildroot}
 %attr(750,root,ossec) %dir %{_localstatedir}/ossec/active-response
 %attr(750,root,ossec) %dir %{_localstatedir}/ossec/active-response/bin
 %attr(770,root,ossec) %dir %{_localstatedir}/ossec/etc/shared
-%attr(750,ossec,ossec) %dir %{_localstatedir}/ossec/logs
 %attr(750,root,ossec) %dir %{_localstatedir}/ossec/queue
+%attr(750,root,ossec) %dir %{_localstatedir}/ossec/var
+%attr(770,root,ossec) %dir %{_localstatedir}/ossec/var/run
+%attr(770,root,ossec) %dir %{_localstatedir}/ossec/var/wodles
+%attr(1750,root,ossec) %dir %{_localstatedir}/ossec/tmp
+%attr(750,root,root) %dir %{_localstatedir}/ossec/lua
+%attr(750,root,root) %dir %{_localstatedir}/ossec/lua/compiled
+%attr(750,root,root) %dir %{_localstatedir}/ossec/lua/native
+%attr(750,root,root) %dir %{_localstatedir}/ossec/bin
+%attr(750,ossec,ossec) %dir %{_localstatedir}/ossec/logs
 %attr(750,ossec,ossec) %dir %{_localstatedir}/ossec/queue/ossec
 %attr(750,ossec,ossec) %dir %{_localstatedir}/ossec/queue/diff
 %attr(770,ossec,ossec) %dir %{_localstatedir}/ossec/queue/alerts
 %attr(750,ossec,ossec) %dir %{_localstatedir}/ossec/queue/rids
 %attr(750,ossec,ossec) %dir %{_localstatedir}/ossec/queue/syscheck
-%attr(750,root,root) %dir %{_localstatedir}/ossec/bin
 %attr(770,ossec,ossec) %dir %{_localstatedir}/ossec/etc
-%attr(750,root,ossec) %dir %{_localstatedir}/ossec/var
-%attr(770,root,ossec) %dir %{_localstatedir}/ossec/var/run
-%attr(770,root,ossec) %dir %{_localstatedir}/ossec/var/wodles
+%{_initrddir}/*
 %attr(750,root,ossec) %{_localstatedir}/ossec/active-response/bin/*
 %attr(750,root,ossec) %{_localstatedir}/ossec/agentless
-%attr(750,root,root) %{_localstatedir}/ossec/bin/*
-%{_initrddir}/*
 %attr(640,root,ossec) %{_localstatedir}/ossec/etc/internal_options*
 %attr(640,root,ossec) %config(noreplace)%{_localstatedir}/ossec/etc/local_internal_options.conf
 %attr(640,root,ossec) %{_localstatedir}/ossec/etc/ossec.conf
-%attr(660,root,ossec) %config %{_localstatedir}/ossec/etc/shared/*
-%config(noreplace) /etc/logrotate.d/wazuh-agent
-%attr(1750,root,ossec) %dir %{_localstatedir}/ossec/tmp
 %attr(750,root,ossec) %{_localstatedir}/ossec/wodles/oscap/oscap.py
 %attr(750,root,ossec) %{_localstatedir}/ossec/wodles/oscap/template*
-%if 0%{?rhel} >= 6 || 0%{?rhel} >= 7 ||  0%{?fedora} >= 23 || 0%{?fedora} >= 24 || 0%{?fedora} >= 25
-%attr(640,root,ossec) %{_localstatedir}/ossec/wodles/oscap/content/*
-%endif
+%attr(750,root,root) %{_localstatedir}/ossec/bin/*
 #Template files
+%attr(660,root,ossec) %config %{_localstatedir}/ossec/etc/shared/*
 %attr(750,root,root) %config(missingok)%{_localstatedir}/ossec/tmp/src/*
 %attr(750,root,root) %config(missingok) %{_localstatedir}/ossec/tmp/add_localfiles.sh
 %attr(750,root,root) %config(missingok) %{_localstatedir}/ossec/tmp/etc/templates/config/generic/*
+%config(noreplace) /etc/logrotate.d/wazuh-agent
+%if 0%{?rhel} >= 6 || 0%{?rhel} >= 7 ||  0%{?fedora} >= 23 || 0%{?fedora} >= 24 || 0%{?fedora} >= 25
+%attr(640,root,ossec) %{_localstatedir}/ossec/wodles/oscap/content/*
+%endif
 %changelog
 * Fri Apr 21 2017 Jose Luis Ruiz <jose@wazuh.com> - 2.0
 - First package v2.0
