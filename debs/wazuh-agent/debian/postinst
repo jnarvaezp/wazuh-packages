@@ -13,7 +13,6 @@ case "$1" in
 	USER="ossec"
 	GROUP="ossec"
 	OSSEC_HIDS_TMP_DIR="/tmp/wazuh-agent"
-
 	OSMYSHELL="/sbin/nologin"
         if [ ! -f ${OSMYSHELL} ]; then
 	    if [ -f "/bin/false" ]; then
@@ -31,15 +30,15 @@ case "$1" in
         fi
         if [ -z "$2" ]
         then
-	  chmod +x ${DIR}/tmp/add_localfiles.sh
+	        chmod +x ${DIR}/tmp/add_localfiles.sh
           ${DIR}/tmp/add_localfiles.sh >> ${DIR}/etc/ossec.conf
-  	  echo "======================================================================================================================================"
-  	  echo "= By default, OSSEC analyses some logs found in your system. Please, review the configuration if you want to monitor any other file. ="
-  	  echo "======================================================================================================================================"
-	  rm -rf ${DIR}/tmp/add_localfiles.sh
-	if [ -f ${DIR}/etc/ossec.conf.deborig ]; then
-	  chmod +x ${DIR}/tmp/src/init/replace_manager_ip.sh
-          ${DIR}/tmp/src/init/replace_manager_ip.sh ${DIR}/etc/ossec.conf.deborig ${DIR}/etc/ossec.conf
+  	      echo "======================================================================================================================================"
+  	      echo "= By default, OSSEC analyses some logs found in your system. Please, review the configuration if you want to monitor any other file. ="
+  	      echo "======================================================================================================================================"
+	        rm -rf ${DIR}/tmp/add_localfiles.sh
+        if [ -f ${DIR}/etc/ossec.conf.deborig ]; then
+	         chmod +x ${DIR}/tmp/src/init/replace_manager_ip.sh
+           ${DIR}/tmp/src/init/replace_manager_ip.sh ${DIR}/etc/ossec.conf.deborig ${DIR}/etc/ossec.conf
         fi
         fi
   rm -rf ${DIR}/tmp/src
@@ -62,12 +61,12 @@ case "$1" in
   touch ${DIR}/logs/ossec.log
 
         if [ ${OS} = "Debian" ]; then
-        chmod 640 ${DIR}/wodles/oscap/content/cve-debian-oval.xml
-	chmod 640 ${DIR}/wodles/oscap/content/ssg-debian-8-ds.xml
+          chmod 640 ${DIR}/wodles/oscap/content/cve-debian-oval.xml
+          chmod 640 ${DIR}/wodles/oscap/content/ssg-debian-8-ds.xml
         fi
         if [ ${OS} = "Ubuntu" ]; then
         if [ ${VER} = "16.04" ]; then
-        chmod 640 ${DIR}/wodles/oscap/content/ssg-ubuntu-1604-ds.xml
+          chmod 640 ${DIR}/wodles/oscap/content/ssg-ubuntu-1604-ds.xml
         fi
 	fi
 
@@ -116,7 +115,7 @@ case "$1" in
 	chmod 770 ${DIR}/var/*
 	chmod 750 ${DIR}/lua || true
 	chmod 750 ${DIR}/lua/native || true
-	chmod 750 ${DIR}/lua/compiled || true
+  chmod 750 ${DIR}/lua/compiled || true
 	chmod 770 ${DIR}/etc
 	chmod 640 ${DIR}/etc/internal_options.conf
 	chmod 640 ${DIR}/etc/local_internal_options.conf >/dev/null 2>&1 || true
@@ -142,7 +141,7 @@ case "$1" in
             cp ${DIR}/etc/init.d/wazuh-agent /etc/init.d/wazuh-agent
             chmod +x /etc/init.d/wazuh-agent
             chmod go-w /etc/init.d/wazuh-agent
-	    chown root:${GROUP} /etc/init.d/wazuh-agent
+	          chown root:${GROUP} /etc/init.d/wazuh-agent
             rm -rf ${DIR}/etc/init.d
         fi
 

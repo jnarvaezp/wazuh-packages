@@ -12,7 +12,7 @@ case "$1" in
 
     failed-upgrade)
       if [ -f /var/ossec/bin/ossec-control ]; then
-	 /var/ossec/bin/ossec-control stop > /dev/null 2>&1
+	       /var/ossec/bin/ossec-control stop > /dev/null 2>&1
       fi
     ;;
 

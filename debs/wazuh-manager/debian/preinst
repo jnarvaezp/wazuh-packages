@@ -21,10 +21,10 @@ case "$1" in
 		cp  ${DIR}/etc/ossec.conf  ${DIR}/etc/ossec.conf.deborig
 		chmod 0600 ${DIR}/etc/ossec.conf.deborig
 		chown root:root ${DIR}/etc/ossec.conf.deborig
-                echo "====================================================================================="
-                echo "= Backup from your ossec.conf has been created at /var/ossec/etc/ossec.conf.deborig ="
-                echo "= Please verify your ossec.conf configuration at /var/ossec/etc/ossec.conf          ="
-                echo "====================================================================================="
+    echo "====================================================================================="
+    echo "= Backup from your ossec.conf has been created at /var/ossec/etc/ossec.conf.deborig ="
+    echo "= Please verify your ossec.conf configuration at /var/ossec/etc/ossec.conf          ="
+    echo "====================================================================================="
 		fi
 	fi
         # Delete old service
