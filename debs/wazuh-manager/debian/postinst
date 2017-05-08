@@ -145,13 +145,12 @@ case "$1" in
 	chmod 640 ${DIR}/ruleset/decoders/*
 	# For the logging user
 	chown -R ${USER}:${GROUP} ${DIR}/logs
-  chown ${USER_MAIL}:${GROUP} ${DIR}/logs/integrations.log
-  chmod -R 750 ${DIR}/logs
-  chmod 640 ${DIR}/logs/integrations.log
-  chmod 660 ${DIR}/logs/ossec.log
-  chmod 660 ${DIR}/logs/active-responses.log
-  chown -R ${USER}:${GROUP} ${DIR}/etc
-
+        chown ${USER_MAIL}:${GROUP} ${DIR}/logs/integrations.log
+  	chmod -R 750 ${DIR}/logs
+  	chmod 640 ${DIR}/logs/integrations.log
+  	chmod 660 ${DIR}/logs/ossec.log
+  	chmod 660 ${DIR}/logs/active-responses.log
+  	chown -R ${USER}:${GROUP} ${DIR}/etc
 	# For the etc dir
 	if [ -f /etc/localtime ]; then
 	    cp -pL /etc/localtime ${DIR}/etc/;
@@ -166,7 +165,7 @@ case "$1" in
 
 	# For the /var/run
 	chmod -R 770 ${DIR}/var
-  chmod 750 ${DIR}/var
+  	chmod 750 ${DIR}/var
 	chown -R root:${GROUP} ${DIR}/var
         # Restore client.keys configuration
         if [ -f ${OSSEC_HIDS_TMP_DIR}/client.keys ]; then
@@ -178,11 +177,11 @@ case "$1" in
         fi
 	# More files
 	touch ${DIR}/etc/client.keys
-  chown root:root ${DIR}/bin
-  chown root:${GROUP} ${DIR}/etc/decoders
+  	chown root:root ${DIR}/bin
+  	chown root:${GROUP} ${DIR}/etc/decoders
 	chown root:${GROUP} ${DIR}/etc/rules
 	chown root:${GROUP} ${DIR}/etc/rules/*
-  chown root:${GROUP} ${DIR}/etc/lists
+  	chown root:${GROUP} ${DIR}/etc/lists
 	chown root:${GROUP} ${DIR}/etc/lists/*
 	chown root:${GROUP} ${DIR}/etc/decoders/*
 	chown root:${GROUP} ${DIR}/etc/internal_options.conf
@@ -191,9 +190,9 @@ case "$1" in
 	chown root:${GROUP} ${DIR}/etc/shared/*
 	chown root:${GROUP} ${DIR}/agentless/*
 	chown root:${GROUP} ${DIR}/.ssh
-  chown root:${GROUP} ${DIR}/etc/shared
+  	chown root:${GROUP} ${DIR}/etc/shared
 	chmod 640 ${DIR}/etc/lists/*
-  chmod 640 ${DIR}/etc/decoders/* >/dev/null 2>&1 || true
+  	chmod 640 ${DIR}/etc/decoders/* >/dev/null 2>&1 || true
 	chmod 640 ${DIR}/etc/rules/* >/dev/null 2>&1 || true
 	chmod 640 ${DIR}/etc/internal_options.conf
 	chmod 640 ${DIR}/etc/local_internal_options.conf >/dev/null 2>&1 || true
@@ -213,14 +212,14 @@ case "$1" in
 	chown root:root ${DIR}/bin/*
 	chmod 750 ${DIR}/bin
 	chmod 750 ${DIR}/bin/*
-  chown -R root:root ${DIR}/lua
+  	chown -R root:root ${DIR}/lua
 	chmod 750 ${DIR}/lua || true
 	chmod 750 ${DIR}/lua/native || true
 	chmod 750 ${DIR}/lua/compiled || true
 	chown root:${GROUP} ${DIR}/etc/ossec.conf
 	chmod 640 ${DIR}/etc/ossec.conf
 	# Sticky bit for /var/ossec/tmp
-  chown root:${GROUP} ${DIR}/tmp
+  	chown root:${GROUP} ${DIR}/tmp
 	chmod 1750 ${DIR}/tmp
 	# Integrations folder
 	chown root:${GROUP} ${DIR}/integrations
