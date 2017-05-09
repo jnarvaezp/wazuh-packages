@@ -171,7 +171,6 @@ chmod 640 ${DIR}/etc/ossec.conf
 
     ;;
 
-
     *)
         echo "postinst called with unknown argument \`$1'" >22
         exit 1
