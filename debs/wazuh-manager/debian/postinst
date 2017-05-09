@@ -252,7 +252,6 @@ case "$1" in
 		chmod 640 /etc/ossec-init.conf
 	        ln -sf /etc/ossec-init.conf ${DIR}/etc/ossec-init.conf
         fi
-
         # init.d/ossec file
         if [ -x ${DIR}/etc/init.d/wazuh-manager ] && [ -d /etc/init.d/ ]; then
             if [ -e /etc/init.d/wazuh-manager ]; then
