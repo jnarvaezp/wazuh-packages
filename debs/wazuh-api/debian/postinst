@@ -34,10 +34,9 @@ case "$1" in
 	if [ -x /etc/init.d/wazuh-api ]; then
             update-rc.d wazuh-api defaults > /dev/null 2>&1
 	fi
-	# Folder Permissions
-
-	chmod 750 ${DIR}
-	chown root:${GROUP} ${DIR}
+  # Folder Permissions
+  chmod 750 ${DIR}
+  chown root:${GROUP} ${DIR}
   chmod 750 ${DIR}/configuration
   chown root:root ${DIR}/configuration
   chmod 750 ${DIR}/controllers
@@ -64,7 +63,7 @@ case "$1" in
   chown root:${GROUP} ${DIR}/node_modules
   chmod 750 ${DIR}/framework/lib
   chown root:${GROUP} ${DIR}/framework/lib
-	#Files Permissions
+  #Files Permissions
   chmod 640 ${DIR}/package.json
   chown root:${GROUP} ${DIR}/package.json
   chmod 750 ${DIR}/app.js
@@ -95,7 +94,6 @@ case "$1" in
   chown root:${GROUP} ${DIR}/node_modules/*
   chmod 750 ${DIR}/framework/lib/*
   chown root:${GROUP} ${DIR}/framework/lib/*
-
         #veriy python version
         if python -V >/dev/null 2>&1; then
           python_version=$(python -c 'import sys; print(".".join(map(str, sys.version_info[:3])))' | cut -c1-3)
