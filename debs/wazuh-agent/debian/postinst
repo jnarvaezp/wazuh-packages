@@ -5,15 +5,15 @@
 set -e
 
 case "$1" in
-    configure)
-
+  configure)
   OS=$(lsb_release -si)
-	VER=$(lsb_release -sr)
-	DIR="/var/ossec/"
-	USER="ossec"
-	GROUP="ossec"
-	OSSEC_HIDS_TMP_DIR="/tmp/wazuh-agent"
-	OSMYSHELL="/sbin/nologin"
+  VER=$(lsb_release -sr)
+  DIR="/var/ossec/"
+  USER="ossec"
+  GROUP="ossec"
+  OSSEC_HIDS_TMP_DIR="/tmp/wazuh-agent"
+  OSMYSHELL="/sbin/nologin"
+  
         if [ ! -f ${OSMYSHELL} ]; then
 	    if [ -f "/bin/false" ]; then
 	        OSMYSHELL="/bin/false"
@@ -59,6 +59,7 @@ case "$1" in
   chown -R ${USER}:${GROUP} ${DIR}/queue/diff
   # For the logging user
   touch ${DIR}/logs/ossec.log
+  
         if [ ${OS} = "Debian" ]; then
           chmod 640 ${DIR}/wodles/oscap/content/cve-debian-oval.xml
           chmod 640 ${DIR}/wodles/oscap/content/ssg-debian-8-ds.xml
@@ -78,8 +79,8 @@ case "$1" in
                 chmod 640 /etc/ossec-init.conf
                 ln -sf /etc/ossec-init.conf ${DIR}/etc/ossec-init.conf
         fi
-	# For the etc dir
-	chown -R ossec:${GROUP} ${DIR}/etc
+  # For the etc dir
+  chown -R ossec:${GROUP} ${DIR}/etc
 	if [ -f /etc/localtime ]; then
 	    cp -pL /etc/localtime ${DIR}/etc/;
 	    chmod 640 ${DIR}/etc/localtime
@@ -95,43 +96,43 @@ case "$1" in
             mv ${OSSEC_HIDS_TMP_DIR}/local_internal_options.conf ${DIR}/etc/local_internal_options.conf
         fi
 
-# More files
-chown root:${GROUP} ${DIR}/etc/internal_options.conf
-chown root:${GROUP} ${DIR}/etc/local_internal_options.conf >/dev/null 2>&1 || true
-chown root:${GROUP} ${DIR}/etc/client.keys >/dev/null 2>&1 || true
-chown root:${GROUP} ${DIR}/agentless/*
-chown -R root:root ${DIR}/lua
-chown -R root:root ${DIR}/bin
-chown root:${GROUP} ${DIR}/.ssh
-chown root:${GROUP} ${DIR}/etc/shared
-chown root:${GROUP} ${DIR}/etc/shared/*
-# For binaries and active response
-chown root:${GROUP} ${DIR}/active-response/bin/*
-# For the /var/run
-chown root:${GROUP} ${DIR}/var/run
-# For ossec.conf
-chown root:${GROUP} ${DIR}/etc/ossec.conf
-chmod 770 ${DIR}/var/*
-chmod 750 ${DIR}/lua || true
-chmod 750 ${DIR}/lua/native || true
-chmod 750 ${DIR}/lua/compiled || true
-chmod 770 ${DIR}/etc
-chmod 640 ${DIR}/etc/internal_options.conf
-chmod 640 ${DIR}/etc/local_internal_options.conf >/dev/null 2>&1 || true
-chmod 640 ${DIR}/etc/client.keys >/dev/null 2>&1 || true
-chmod 750 ${DIR}/agentless/*
-chmod 700 ${DIR}/.ssh
-chmod 770 ${DIR}/etc/shared
-chmod 660 ${DIR}/etc/shared/*
-chmod 1750  ${DIR}/tmp
-# For util.sh
-chmod +x ${DIR}/bin/util.sh
-# For binaries and active response
-chmod 750 ${DIR}/active-response/bin/*
-chmod 750 ${DIR}/bin/*
-# For ossec.conf
-chmod 640 ${DIR}/etc/ossec.conf
-        # init.d/ossec file
+  # More files
+  chown root:${GROUP} ${DIR}/etc/internal_options.conf
+  chown root:${GROUP} ${DIR}/etc/local_internal_options.conf >/dev/null 2>&1 || true
+  chown root:${GROUP} ${DIR}/etc/client.keys >/dev/null 2>&1 || true
+  chown root:${GROUP} ${DIR}/agentless/*
+  chown -R root:root ${DIR}/lua
+  chown -R root:root ${DIR}/bin
+  chown root:${GROUP} ${DIR}/.ssh
+  chown root:${GROUP} ${DIR}/etc/shared
+  chown root:${GROUP} ${DIR}/etc/shared/*
+  # For binaries and active response
+  chown root:${GROUP} ${DIR}/active-response/bin/*
+  # For the /var/run
+  chown root:${GROUP} ${DIR}/var/run
+  # For ossec.conf
+  chown root:${GROUP} ${DIR}/etc/ossec.conf
+  chmod 770 ${DIR}/var/*
+  chmod 750 ${DIR}/lua || true
+  chmod 750 ${DIR}/lua/native || true
+  chmod 750 ${DIR}/lua/compiled || true
+  chmod 770 ${DIR}/etc
+  chmod 640 ${DIR}/etc/internal_options.conf
+  chmod 640 ${DIR}/etc/local_internal_options.conf >/dev/null 2>&1 || true
+  chmod 640 ${DIR}/etc/client.keys >/dev/null 2>&1 || true
+  chmod 750 ${DIR}/agentless/*
+  chmod 700 ${DIR}/.ssh
+  chmod 770 ${DIR}/etc/shared
+  chmod 660 ${DIR}/etc/shared/*
+  chmod 1750  ${DIR}/tmp
+  # For util.sh
+  chmod +x ${DIR}/bin/util.sh
+  # For binaries and active response
+  chmod 750 ${DIR}/active-response/bin/*
+  chmod 750 ${DIR}/bin/*
+  # For ossec.conf
+  chmod 640 ${DIR}/etc/ossec.conf
+  # init.d/ossec file
         if [ -x ${DIR}/etc/init.d/wazuh-agent ] && [ -d /etc/init.d/ ]; then
             if [ -e /etc/init.d/wazuh-agent ]; then
                 rm -f /etc/init.d/wazuh-agent
