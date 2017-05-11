@@ -8,11 +8,11 @@ case "$1" in
     configure)
 
   OS=$(lsb_release -si)
-	DIR="/var/ossec/api"
-	OSSEC_HIDS_TMP_DIR="/tmp/wazuh-api"
+  DIR="/var/ossec/api"
+  OSSEC_HIDS_TMP_DIR="/tmp/wazuh-api"
   USER="ossec"
   GROUP="ossec"
-	OSMYSHELL="/sbin/nologin"
+  OSMYSHELL="/sbin/nologin"
 
       if [ ! -f ${OSMYSHELL} ]; then
 	    if [ -f "/bin/false" ]; then
