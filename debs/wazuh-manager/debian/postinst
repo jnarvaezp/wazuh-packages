@@ -7,14 +7,14 @@ case "$1" in
     configure)
 
   OS=$(lsb_release -si)
-	VER=$(lsb_release -sr)
-	DIR="/var/ossec/"
-	USER="ossec"
-	USER_MAIL="ossecm"
-	USER_REM="ossecr"
-	GROUP="ossec"
-	OSSEC_HIDS_TMP_DIR="/tmp/wazuh-manager"
-	OSMYSHELL="/sbin/nologin"
+  VER=$(lsb_release -sr)
+  DIR="/var/ossec/"
+  USER="ossec"
+  USER_MAIL="ossecm"
+  USER_REM="ossecr"
+  GROUP="ossec"
+  OSSEC_HIDS_TMP_DIR="/tmp/wazuh-manager"
+  OSMYSHELL="/sbin/nologin"
         if [ ! -f ${OSMYSHELL} ]; then
 	    if [ -f "/bin/false" ]; then
 	        OSMYSHELL="/bin/false"
@@ -60,14 +60,13 @@ case "$1" in
         if [ -f "${DIR}/rules/local_rules.xml" ]; then
             mv "${DIR}/rules/local_rules.xml" $ETC_RULES
         fi
-        # Creating backup directory
-        BACKUP_RULESET="${DIR}/etc/backup_ruleset"
-        mkdir $BACKUP_RULESET > /dev/null 2>&1
-        chmod 750 $BACKUP_RULESET > /dev/null 2>&1
-        chown root:ossec $BACKUP_RULESET > /dev/null 2>&1
-
-        # Backup decoders: Wazuh v1.0.1 to v1.1.1
-        old_decoders="ossec_decoders wazuh_decoders"
+   # Creating backup directory
+   BACKUP_RULESET="${DIR}/etc/backup_ruleset"
+   mkdir $BACKUP_RULESET > /dev/null 2>&1
+   chmod 750 $BACKUP_RULESET > /dev/null 2>&1
+   chown root:ossec $BACKUP_RULESET > /dev/null 2>&1
+   # Backup decoders: Wazuh v1.0.1 to v1.1.1
+   old_decoders="ossec_decoders wazuh_decoders"
         for old_decoder in $old_decoders
         do
             if [ -d "${DIR}/etc/$old_decoder" ]; then
@@ -99,59 +98,59 @@ case "$1" in
         fi
         fi
 
-	rm -rf ${DIR}/tmp/add_localfiles.sh
-	rm -rf ${DIR}/tmp/src
-	rm -rf ${DIR}/tmp/etc
-	# Default for all directories
-	chmod -R 750 ${DIR}
-	chown -R root:${GROUP} ${DIR}
-	# AnalysisD needs to write to alerts: log, mail and cmds
-	chmod -R 750 ${DIR}/queue
-	chown -R ${USER}:${GROUP} ${DIR}/queue/alerts
-	chmod -R 770 ${DIR}/queue/alerts
-	# To the ossec queue (default for analysisd to read)
-	chown -R ${USER}:${GROUP} ${DIR}/queue/ossec
-	chmod -R 750 ${DIR}/queue/ossec
-	# To the ossec fts queue
-	chown -R ${USER}:${GROUP} ${DIR}/queue/fts
-	chmod -R 750 ${DIR}/queue/fts
-	chmod 740 ${DIR}/queue/fts/* > /dev/null 2>&1 || true
-	# To the ossec syscheck/rootcheck queue
-	chown -R ${USER}:${GROUP} ${DIR}/queue/syscheck
-	chmod -R 750 ${DIR}/queue/syscheck
-	chmod 740 ${DIR}/queue/syscheck/* > /dev/null 2>&1 || true
-	chown -R ${USER}:${GROUP} ${DIR}/queue/rootcheck
-	chmod -R 750 ${DIR}/queue/rootcheck
-	chmod 740 ${DIR}/queue/rootcheck/* > /dev/null 2>&1 || true
-	chown -R ${USER}:${GROUP} ${DIR}/queue/diff
-	chmod -R 750 ${DIR}/queue/diff
-	chmod 740 ${DIR}/queue/diff/* > /dev/null 2>&1 || true
-	chown -R ${USER_REM}:${GROUP} ${DIR}/queue/agent-info
-	chmod -R 770 ${DIR}/queue/agent-info
-	chown -R ${USER_REM}:${GROUP} ${DIR}/queue/rids
-	chmod -R 770 ${DIR}/queue/rids
-	chown -R ${USER}:${GROUP} ${DIR}/queue/agentless
-	chmod -R 750 ${DIR}/queue/agentless
-	chmod 750 ${DIR}/queue/agentless/* > /dev/null 2>&1 || true
-	# For the stats directory
-	chown -R ${USER}:${GROUP} ${DIR}/stats
-	chmod -R 750 ${DIR}/stats
-	# For the ruleset
-	chown root:${GROUP} ${DIR}/ruleset/VERSION
-	chmod 640 ${DIR}/ruleset/VERSION
-	chown root:${GROUP} ${DIR}/ruleset/rules/*
-	chmod 640 ${DIR}/ruleset/rules/*
-	chown root:${GROUP} ${DIR}/ruleset/decoders/*
-	chmod 640 ${DIR}/ruleset/decoders/*
-	# For the logging user
-	chown -R ${USER}:${GROUP} ${DIR}/logs
-        chown ${USER_MAIL}:${GROUP} ${DIR}/logs/integrations.log
-  	chmod -R 750 ${DIR}/logs
-  	chmod 640 ${DIR}/logs/integrations.log
-  	chmod 660 ${DIR}/logs/ossec.log
-  	chmod 660 ${DIR}/logs/active-responses.log
-  	chown -R ${USER}:${GROUP} ${DIR}/etc
-	# For the etc dir
+rm -rf ${DIR}/tmp/add_localfiles.sh
+rm -rf ${DIR}/tmp/src
+rm -rf ${DIR}/tmp/etc
+# Default for all directories
+chmod -R 750 ${DIR}
+chown -R root:${GROUP} ${DIR}
+# AnalysisD needs to write to alerts: log, mail and cmds
+chmod -R 750 ${DIR}/queue
+chown -R ${USER}:${GROUP} ${DIR}/queue/alerts
+chmod -R 770 ${DIR}/queue/alerts
+# To the ossec queue (default for analysisd to read)
+chown -R ${USER}:${GROUP} ${DIR}/queue/ossec
+chmod -R 750 ${DIR}/queue/ossec
+# To the ossec fts queue
+chown -R ${USER}:${GROUP} ${DIR}/queue/fts
+chmod -R 750 ${DIR}/queue/fts
+chmod 740 ${DIR}/queue/fts/* > /dev/null 2>&1 || true
+# To the ossec syscheck/rootcheck queue
+chown -R ${USER}:${GROUP} ${DIR}/queue/syscheck
+chmod -R 750 ${DIR}/queue/syscheck
+chmod 740 ${DIR}/queue/syscheck/* > /dev/null 2>&1 || true
+chown -R ${USER}:${GROUP} ${DIR}/queue/rootcheck
+chmod -R 750 ${DIR}/queue/rootcheck
+chmod 740 ${DIR}/queue/rootcheck/* > /dev/null 2>&1 || true
+chown -R ${USER}:${GROUP} ${DIR}/queue/diff
+chmod -R 750 ${DIR}/queue/diff
+chmod 740 ${DIR}/queue/diff/* > /dev/null 2>&1 || true
+chown -R ${USER_REM}:${GROUP} ${DIR}/queue/agent-info
+chmod -R 770 ${DIR}/queue/agent-info
+chown -R ${USER_REM}:${GROUP} ${DIR}/queue/rids
+chmod -R 770 ${DIR}/queue/rids
+chown -R ${USER}:${GROUP} ${DIR}/queue/agentless
+chmod -R 750 ${DIR}/queue/agentless
+chmod 750 ${DIR}/queue/agentless/* > /dev/null 2>&1 || true
+# For the stats directory
+chown -R ${USER}:${GROUP} ${DIR}/stats
+chmod -R 750 ${DIR}/stats
+# For the ruleset
+chown root:${GROUP} ${DIR}/ruleset/VERSION
+chmod 640 ${DIR}/ruleset/VERSION
+chown root:${GROUP} ${DIR}/ruleset/rules/*
+chmod 640 ${DIR}/ruleset/rules/*
+chown root:${GROUP} ${DIR}/ruleset/decoders/*
+chmod 640 ${DIR}/ruleset/decoders/*
+# For the logging user
+chown -R ${USER}:${GROUP} ${DIR}/logs
+chown ${USER_MAIL}:${GROUP} ${DIR}/logs/integrations.log
+chmod -R 750 ${DIR}/logs
+chmod 640 ${DIR}/logs/integrations.log
+chmod 660 ${DIR}/logs/ossec.log
+chmod 660 ${DIR}/logs/active-responses.log
+chown -R ${USER}:${GROUP} ${DIR}/etc
+# For the etc dir
 	if [ -f /etc/localtime ]; then
 	    cp -pL /etc/localtime ${DIR}/etc/;
 	    chmod 640 ${DIR}/etc/localtime
@@ -163,11 +162,11 @@ case "$1" in
 	    chmod 740 ${DIR}/etc/TIMEZONE
 	fi
 
-	# For the /var/run
-	chmod -R 770 ${DIR}/var
-  	chmod 750 ${DIR}/var
-	chown -R root:${GROUP} ${DIR}/var
-        # Restore client.keys configuration
+# For the /var/run
+chmod -R 770 ${DIR}/var
+chmod 750 ${DIR}/var
+chown -R root:${GROUP} ${DIR}/var
+# Restore client.keys configuration
         if [ -f ${OSSEC_HIDS_TMP_DIR}/client.keys ]; then
             mv ${OSSEC_HIDS_TMP_DIR}/client.keys ${DIR}/etc/client.keys
         fi
@@ -175,63 +174,62 @@ case "$1" in
         if [ -f ${OSSEC_HIDS_TMP_DIR}/local_internal_options.conf ]; then
             mv ${OSSEC_HIDS_TMP_DIR}/local_internal_options.conf ${DIR}/etc/local_internal_options.conf
         fi
-	# More files
-	touch ${DIR}/etc/client.keys
-  	chown root:root ${DIR}/bin
-  	chown root:${GROUP} ${DIR}/etc/decoders
-	chown root:${GROUP} ${DIR}/etc/rules
-	chown root:${GROUP} ${DIR}/etc/rules/*
-  	chown root:${GROUP} ${DIR}/etc/lists
-	chown root:${GROUP} ${DIR}/etc/lists/*
-	chown root:${GROUP} ${DIR}/etc/decoders/*
-	chown root:${GROUP} ${DIR}/etc/internal_options.conf
-	chown root:${GROUP} ${DIR}/etc/local_internal_options.conf >/dev/null 2>&1 || true
-	chown root:${GROUP} ${DIR}/etc/client.keys >/dev/null 2>&1 || true
-	chown root:${GROUP} ${DIR}/etc/shared/*
-	chown root:${GROUP} ${DIR}/agentless/*
-	chown root:${GROUP} ${DIR}/.ssh
-  	chown root:${GROUP} ${DIR}/etc/shared
-	chmod 640 ${DIR}/etc/lists/*
-  	chmod 640 ${DIR}/etc/decoders/* >/dev/null 2>&1 || true
-	chmod 640 ${DIR}/etc/rules/* >/dev/null 2>&1 || true
-	chmod 640 ${DIR}/etc/internal_options.conf
-	chmod 640 ${DIR}/etc/local_internal_options.conf >/dev/null 2>&1 || true
-	chmod 640 ${DIR}/etc/client.keys >/dev/null 2>&1 || true
-	chmod 770 ${DIR}/etc
-	chmod 770 ${DIR}/etc/shared
-	chmod 660 ${DIR}/etc/shared/*
-	chmod 750 ${DIR}/agentless
-	chmod 750 ${DIR}/agentless/*
-	chmod 700 ${DIR}/.ssh
-	chmod 750 ${DIR}/logs/archives || true
-	chmod 750 ${DIR}/logs/alerts || true
-	chmod 750 ${DIR}/logs/firewall || true
-	rm ${DIR}/etc/shared/merged.mg >/dev/null 2>&1 || true
-	chmod 750 ${DIR}/active-response/bin/*
-	chown root:${GROUP} ${DIR}/active-response/bin/*
-	chown root:root ${DIR}/bin/*
-	chmod 750 ${DIR}/bin
-	chmod 750 ${DIR}/bin/*
-  	chown -R root:root ${DIR}/lua
-	chmod 750 ${DIR}/lua || true
-	chmod 750 ${DIR}/lua/native || true
-	chmod 750 ${DIR}/lua/compiled || true
-	chown root:${GROUP} ${DIR}/etc/ossec.conf
-	chmod 640 ${DIR}/etc/ossec.conf
-	# Sticky bit for /var/ossec/tmp
-  	chown root:${GROUP} ${DIR}/tmp
-	chmod 1750 ${DIR}/tmp
-	# Integrations folder
-	chown root:${GROUP} ${DIR}/integrations
-	chmod 750 ${DIR}/integrations
-	chown root:${GROUP} ${DIR}/integrations/*
-	chmod 750 ${DIR}/integrations/*
-	# Backup folder
-	chown root:${GROUP} ${DIR}/backup
-	chmod 750 ${DIR}/backup
-	chown ${USER}:${GROUP} ${DIR}/backup/agents
-	chmod 750 ${DIR}/backup/agents
-
+# More files
+touch ${DIR}/etc/client.keys
+chown root:root ${DIR}/bin
+chown root:${GROUP} ${DIR}/etc/decoders
+chown root:${GROUP} ${DIR}/etc/rules
+chown root:${GROUP} ${DIR}/etc/rules/*
+chown root:${GROUP} ${DIR}/etc/lists
+chown root:${GROUP} ${DIR}/etc/lists/*
+chown root:${GROUP} ${DIR}/etc/decoders/*
+chown root:${GROUP} ${DIR}/etc/internal_options.conf
+chown root:${GROUP} ${DIR}/etc/local_internal_options.conf >/dev/null 2>&1 || true
+chown root:${GROUP} ${DIR}/etc/client.keys >/dev/null 2>&1 || true
+chown root:${GROUP} ${DIR}/etc/shared/*
+chown root:${GROUP} ${DIR}/agentless/*
+chown root:${GROUP} ${DIR}/.ssh
+chown root:${GROUP} ${DIR}/etc/shared
+chmod 640 ${DIR}/etc/lists/*
+chmod 640 ${DIR}/etc/decoders/* >/dev/null 2>&1 || true
+chmod 640 ${DIR}/etc/rules/* >/dev/null 2>&1 || true
+chmod 640 ${DIR}/etc/internal_options.conf
+chmod 640 ${DIR}/etc/local_internal_options.conf >/dev/null 2>&1 || true
+chmod 640 ${DIR}/etc/client.keys >/dev/null 2>&1 || true
+chmod 770 ${DIR}/etc
+chmod 770 ${DIR}/etc/shared
+chmod 660 ${DIR}/etc/shared/*
+chmod 750 ${DIR}/agentless
+chmod 750 ${DIR}/agentless/*
+chmod 700 ${DIR}/.ssh
+chmod 750 ${DIR}/logs/archives || true
+chmod 750 ${DIR}/logs/alerts || true
+chmod 750 ${DIR}/logs/firewall || true
+rm ${DIR}/etc/shared/merged.mg >/dev/null 2>&1 || true
+chmod 750 ${DIR}/active-response/bin/*
+chown root:${GROUP} ${DIR}/active-response/bin/*
+chown root:root ${DIR}/bin/*
+chmod 750 ${DIR}/bin
+chmod 750 ${DIR}/bin/*
+chown -R root:root ${DIR}/lua
+chmod 750 ${DIR}/lua || true
+chmod 750 ${DIR}/lua/native || true
+chmod 750 ${DIR}/lua/compiled || true
+chown root:${GROUP} ${DIR}/etc/ossec.conf
+chmod 640 ${DIR}/etc/ossec.conf
+# Sticky bit for /var/ossec/tmp
+chown root:${GROUP} ${DIR}/tmp
+chmod 1750 ${DIR}/tmp
+# Integrations folder
+chown root:${GROUP} ${DIR}/integrations
+chmod 750 ${DIR}/integrations
+chown root:${GROUP} ${DIR}/integrations/*
+chmod 750 ${DIR}/integrations/*
+# Backup folder
+chown root:${GROUP} ${DIR}/backup
+chmod 750 ${DIR}/backup
+chown ${USER}:${GROUP} ${DIR}/backup/agents
+chmod 750 ${DIR}/backup/agents
         # Update openscap
         if [ ${OS} = "Debian" ]; then
         chmod 640 ${DIR}/wodles/oscap/content/cve-debian-oval.xml
