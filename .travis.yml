@@ -5,8 +5,12 @@ services:
 
 env:
     matrix:
-      - OS=el DIST=6
-      - OS=el DIST=7
+      - OS_TYPE=centos DIST=6
+      - OS_TYPE=centos DIST=7
 
-script:
-  - make docker-rpm
+before_install:
+  - sudo apt-get update
+  - echo 'DOCKER_OPTS="-H tcp://127.0.0.1:2375 -H unix:///var/run/docker.sock -s devicemapper"' | sudo tee /etc/default/docker > /dev/null
+  - sudo service docker restart
+  - sleep 5
+  - sudo docker pull centos:centos${OS_VERSION}
